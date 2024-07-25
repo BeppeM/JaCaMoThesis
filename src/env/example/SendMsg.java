@@ -6,6 +6,7 @@ import cartago.*;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
+import feign.Response;
 
 public class SendMsg extends Artifact {
 
@@ -21,7 +22,16 @@ public class SendMsg extends Artifact {
     @OPERATION
     void sendMessage(String msg) {
         try {
-            sendMsgClient.sendMessage("move");
+            Response response = sendMsgClient.sendMessage("move");
+
+            if (response.status() == 200) {
+                String responseBody = response.body().toString();
+                System.out.println("Ritornata la risposta correttamente!!");
+                // Notify the agent with the response body
+                signal("responseReceived", responseBody);
+            } else {
+                failed("Failed to send message: " + response.status());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             failed("Errore: " + e.getMessage());

@@ -9,11 +9,16 @@
 /* Plans */
 
 +!start : true
-    <- .print("hello world.");
-       .date(Y,M,D); .time(H,Min,Sec,MilSec); // get current date & time
-       +started(Y,M,D,H,Min,Sec);             // add a new belief
-       print("pippo");
+    <- .print("hello world.");       
        sendMessage("Ciao mondo!").
+
+
++responseReceived(ResponseBody) <-
+    .print("Pippooooo: ");
+    +pippo.
+
++pippo <- .print("Ho salvato correttamente il belief").
+
 
 
 { include("$jacamo/templates/common-cartago.asl") }
