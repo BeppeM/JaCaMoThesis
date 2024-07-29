@@ -8,17 +8,13 @@
 
 /* Plans */
 
-+!start : true
-    <- .print("hello world.");       
-       sendMessage("Ciao mondo!").
++received_message(Message) <-
+    .print("Messaggio ricevuto da Unity: ", Message);
+    +connection_established.
 
++connection_established <- !reachDestination.
 
-+responseReceived(ResponseBody) <-
-    .print("Pippooooo: ");
-    +pippo.
-
-+pippo <- .print("Ho salvato correttamente il belief").
-
++!reachDestination <- sendMessage("reachDest").
 
 
 { include("$jacamo/templates/common-cartago.asl") }

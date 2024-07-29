@@ -15,15 +15,14 @@
 mas my1st_app {
 
     agent bob: sample_agent.asl {
-      focus: sndMsg.msg 
+      focus: w.wsServer 
     }
 
-    workspace w {
-      artifact c1: example.Counter(3) 
-    }
-
-    workspace sndMsg {
-      artifact msg: example.SendMsg(3) 
+/*
+Define a workspace with agent to send message via webSocket communication channel
+*/
+    workspace w { 
+      artifact wsServer: example.WsServerArtifact() 
     }
 
     
