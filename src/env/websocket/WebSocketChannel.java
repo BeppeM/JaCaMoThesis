@@ -6,7 +6,7 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
-import example.WsServerArtifact;
+import artifact.WsServerArtifact;
 
 public class WebSocketChannel extends WebSocketServer{
 

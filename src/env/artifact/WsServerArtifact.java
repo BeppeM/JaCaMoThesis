@@ -1,4 +1,4 @@
-package example;
+package artifact;
 
 import java.net.InetSocketAddress;
 
