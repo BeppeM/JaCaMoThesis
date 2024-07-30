@@ -2,6 +2,8 @@ package websocket;
 
 // Websockets
 import java.net.InetSocketAddress;
+import java.util.concurrent.CompletableFuture;
+
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -47,8 +49,14 @@ public class WebSocketChannel extends WebSocketServer{
 
 
     public void sendMessage(String msg){
-        System.out.println("Sending message");
-        webSocketClient.send(msg);
+        System.out.println("Sending message - " + msg);
+        CompletableFuture.runAsync(() -> {
+            try {
+                webSocketClient.send(msg);                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void setWsServerArtifact(WsArtifactInterface wsServerArtifact){

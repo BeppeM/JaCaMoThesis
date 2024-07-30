@@ -6,10 +6,15 @@ import cartago.Artifact;
 import cartago.INTERNAL_OPERATION;
 import cartago.OPERATION;
 import websocket.WebSocketChannel;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
 
-public class WsServerArtifact extends Artifact implements WsArtifactInterface {
+public class WsAgentArtifact extends Artifact implements WsArtifactInterface {
 
     private WebSocketChannel server;
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition = lock.newCondition();
 
     void init() {
         String host = "localhost";
@@ -24,7 +29,7 @@ public class WsServerArtifact extends Artifact implements WsArtifactInterface {
     @OPERATION
     @Override
     public void sendMessageToUnity(String msg) {
-        server.sendMessage(msg);
+        server.sendMessage(msg);        
     }
 
     public void signalNewMessageToJaCaMo(String message) {
@@ -34,6 +39,11 @@ public class WsServerArtifact extends Artifact implements WsArtifactInterface {
 
     @INTERNAL_OPERATION
     public void signalAgent(String message) {
-        signal("received_message", message);
+        lock.lock();
+        try{
+            signal("received_message", message);
+        }finally{
+            lock.unlock();
+        }
     }
 }
