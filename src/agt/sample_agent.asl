@@ -14,7 +14,7 @@
 
 +connection_established <- !reachDestination.
 
-+!reachDestination <- sendMessage("reachDest").
++!reachDestination <- sendMessageToUnity("reachDest").
 
 
 { include("$jacamo/templates/common-cartago.asl") }

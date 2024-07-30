@@ -6,12 +6,12 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
-import artifact.WsServerArtifact;
+import artifact.WsArtifactInterface;
 
 public class WebSocketChannel extends WebSocketServer{
 
-    private WebSocket webSocketClients;
-    private WsServerArtifact wsServerArtifact;
+    private WebSocket webSocketClient;
+    private WsArtifactInterface wsServerArtifact;
 
     public WebSocketChannel(InetSocketAddress address){
         super(address);
@@ -20,9 +20,9 @@ public class WebSocketChannel extends WebSocketServer{
     @Override // Open connection and send welcome message to the clients that are listening on the channel
     public void onOpen(WebSocket conn, ClientHandshake handshake){
         // Save connection info
-        webSocketClients = conn;
+        webSocketClient = conn;
         // Send welcome to the client
-        conn.send("I'm the client!");
+        conn.send("Welcome!");
     }
 
     @Override
@@ -30,9 +30,9 @@ public class WebSocketChannel extends WebSocketServer{
         System.out.println("closed " + conn.getRemoteSocketAddress() + " with exit code " + code + " additional info " + reason);
     }
 
-    @Override // Received message to the client
+    @Override // Received message from the client (Unity)
 	public void onMessage(WebSocket conn, String message) {
-        wsServerArtifact.signalNewMessage(message);                
+        wsServerArtifact.signalNewMessageToJaCaMo(message);                
 	}
 
 	@Override
@@ -42,15 +42,16 @@ public class WebSocketChannel extends WebSocketServer{
 	
 	@Override
 	public void onStart() {
-		System.out.println("server started successfully");
+		System.out.println("WebSocket channel started successfully");
 	}
+
 
     public void sendMessage(String msg){
         System.out.println("Sending message");
-        webSocketClients.send(msg);
+        webSocketClient.send(msg);
     }
 
-    public void setWsServerArtifact(WsServerArtifact wsServerArtifact){
+    public void setWsServerArtifact(WsArtifactInterface wsServerArtifact){
         this.wsServerArtifact = wsServerArtifact;
     }
 

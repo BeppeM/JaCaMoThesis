@@ -22,7 +22,7 @@ mas my1st_app {
 Define a workspace with agent to send message via webSocket communication channel
 */
     workspace w { 
-      artifact wsServer: example.WsServerArtifact() 
+      artifact wsServer: artifact.WsServerArtifact() 
     }
 
     

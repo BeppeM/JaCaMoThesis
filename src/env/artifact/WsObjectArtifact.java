@@ -3,11 +3,9 @@ package artifact;
 import java.net.InetSocketAddress;
 
 import cartago.Artifact;
-import cartago.INTERNAL_OPERATION;
-import cartago.OPERATION;
 import websocket.WebSocketChannel;
 
-public class WsServerArtifact extends Artifact implements WsArtifactInterface {
+public class WsObjectArtifact extends Artifact implements WsArtifactInterface {
 
     private WebSocketChannel server;
 
@@ -21,19 +19,15 @@ public class WsServerArtifact extends Artifact implements WsArtifactInterface {
         System.out.println("WebSocket server started on port: " + server.getPort());
     }
 
-    @OPERATION
+    @Override
+    public void signalNewMessageToJaCaMo(String message) {
+        // TODO Auto-generated method stub
+    }
+
     @Override
     public void sendMessageToUnity(String msg) {
-        server.sendMessage(msg);
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'sendMessageToUnity'");
     }
 
-    public void signalNewMessageToJaCaMo(String message) {
-        // Trigger an internal operation to handle the signal
-        execInternalOp("signalAgent", message);
-    }
-
-    @INTERNAL_OPERATION
-    public void signalAgent(String message) {
-        signal("received_message", message);
-    }
 }
